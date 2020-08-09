@@ -8,7 +8,6 @@ $(function(){
         availableGames.append(
             '<li id="' + game + '"><a href="/games/' + game + '">' +
             game + '</a></li>');
-            alert('saved');
     });
 
     socket.on('gameRemoved', function(game) {

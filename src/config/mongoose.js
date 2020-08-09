@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const debug = require('debug')('hangman:config:mongoose');
 const {MongoMemoryServer} = require('mongodb-memory-server');
-
+const {MONGODB_URL} = require('./dotenv');
 const mongoServer = new MongoMemoryServer();
 
 mongoose.Promise = Promise;
@@ -21,7 +21,7 @@ mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
-mongoose.connect(process.env.MONGODB_URL.trim());
+mongoose.connect(MONGODB_URL.trim());
 const connection = mongoose.connection; 
 module.exports = new Promise(function(resolve, reject){
     connection.once('open', () => resolve(mongoose));

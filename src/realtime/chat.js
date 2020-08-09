@@ -5,7 +5,10 @@ module.exports = (io) => {
     
     namespace.on('connection', (socket) => {
 
-        const username = socket.request.user.name;
+        const username = null;
+        if(socket.request.user){
+            username = socket.request.user.name;
+        }
 
         socket.on('joinRoom', (room) => {
             socket.join(room);

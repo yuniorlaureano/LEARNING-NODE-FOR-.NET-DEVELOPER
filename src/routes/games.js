@@ -8,7 +8,7 @@ module.exports = (service) => {
     const checkGameExists = function(id, res, onSuccess, onError){
         service.get(id)
             .then(game => {
-                if (game) {
+                if (game) {                    
                     onSuccess(game);
                 } else {
                     res.status(404).send('Non-existent game ID');
@@ -20,13 +20,16 @@ module.exports = (service) => {
         checkGameExists(req.params.id, res, game => {
             res.render('game', {
                 length:  game.word.length,
-                id: game.id
-            }, next);
-        });
+                id: game._id
+            });
+        }, next);
     });
 
     router.post('/:id/gesses', function(req, res, next){
         checkGameExists(req.params.id, res, game => {
+            if(req.user && game.matches(req.body.word)){
+                userService.recordWin(req.user.id);
+            }
             res.send({
                 positions: game.positionsOf(req.body.letter)
             }, next);

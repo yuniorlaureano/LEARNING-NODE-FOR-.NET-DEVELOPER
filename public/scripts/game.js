@@ -3,7 +3,7 @@ $(function(){
     var length = word.data('length');
     var id = word.data('id');
     //Create the placeholder for each letter
-    console.log(length)
+
     for(var i = 0; i < length; i++){
         word.append('<span>_</span>');
     }

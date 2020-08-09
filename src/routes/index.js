@@ -6,14 +6,19 @@ module.exports = (games) => {
   var router = express.Router();
 
   router.get('/', function(req, res, next) {
+    let userId = null;
+    if(req.user){
+      userId = req.user.id;
+    }
+    
     Promise.all([
-      games.createdBy(req.user.id),
-      games.availableTo(req.user.id)
+      games.createdBy(userId),
+      games.availableTo(userId)
     ]).then(results => {
-      console.log(results);
       res.render('index', {
         title: 'Hangman',
-        userId: req.user.id,
+        loggedIn: req.isAuthenticated(),
+        userId: userId,
         createdGames: results[0],
         availableGames: results[1],
         partials: {
